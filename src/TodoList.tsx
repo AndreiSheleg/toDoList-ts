@@ -1,46 +1,61 @@
-import React from 'react';
-import {TaskType} from './App';
+import React, {useState} from 'react';
+import {FilterType} from './App';
 
-type TodoListPropsType = {
+type TaskType = {
+    id: number
     title: string
-    tasks: TaskType[]
+    isDone: boolean
 }
 
-export const TodoList = (props: TodoListPropsType) => {
-// в продакшене не делают логигу или методы мэп внутри вёрстки,
-    // мэп выносят или в переменную или в компоненту
-    const tasksMap =  props.tasks.map((el) => {
-        debugger
-        return (
-            <li>
-                <input type="checkbox" checked={el.isDone}/>
-                <span>{el.title}</span>
-            </li>
-        )
-    })
+type PropsType = {
+    title: string
+    tasks: TaskType[]
+    removeTask: (taskId:number) => void
 
-    return (
+}
+
+export function Todolist(props: PropsType) {
+
+    let [filter, setFilter] = useState<FilterType>('All')
+
+    const filterTasks = (buttonName:FilterType) => {
+        setFilter(buttonName)
+    }
+
+    let currentTasks = props.tasks
+
+    if (filter === 'Active') {
+        currentTasks = props.tasks.filter( el => !el.isDone)
+    }
+    if (filter === 'Completed') {
+        currentTasks = props.tasks.filter( el => el.isDone)
+    }
+
+
+    return <div>
+        <h3>{props.title}</h3>
         <div>
-            <h3>{props.title}</h3>
-            <div>
-                <input placeholder="write new task..."/>
-                <button>+add</button>
-            </div>
-
-            <ul>
-                {tasksMap}
-
-
-                {/*<li><input type="checkbox" checked={props.tasks[0].isDone}/><span>{props.tasks[0].title}</span></li>
-                <li><input type="checkbox" checked={props.tasks[1].isDone}/><span>{props.tasks[1].title}</span></li>
-                <li><input type="checkbox" checked={props.tasks[2].isDone}/><span>{props.tasks[2].title}</span></li>
-                <li><input type="checkbox" checked={props.tasks[3].isDone}/><span>{props.tasks[3].title}</span></li>*/}
-            </ul>
-            <div>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
-            </div>
+            <input/>
+            <button>+Add</button>
         </div>
-    );
-};
+        <ul>
+            {currentTasks.map( (el) => {
+                debugger
+                return (
+                    <li key={el.id}>
+                        <button onClick={ ()=> {props.removeTask(el.id)} }> ✖ </button>
+                        <input type="checkbox" checked={el.isDone}/> <span>{el.title}</span>
+
+
+                    </li>
+                )
+                           })}
+        </ul>
+
+        <div>
+            <button onClick={ () => filterTasks('All')} >All</button>
+            <button onClick={ () => filterTasks('Active')}>Active</button>
+            <button onClick={ () => filterTasks('Completed')}>Completed</button>
+        </div>
+    </div>
+}
