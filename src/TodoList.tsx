@@ -5,6 +5,7 @@ type TodoListPropsType = {
     title: string
     tasks: TaskType[]
 }
+
 export const TodoList = (props: TodoListPropsType) => {
 // в продакшене не делают логигу или методы мэп внутри вёрстки,
     // мэп выносят или в переменную или в компоненту
