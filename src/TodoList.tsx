@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
 import {Button} from './conponents/Button';
+import styles from './Todolist.module.css'
 
 type TaskType = {
     id: string
@@ -14,19 +15,24 @@ type PropsType = {
     removeTask: (taskId: string) => void
     changeFilter: (value: FilterValuesType) => void
     addTask: (newTitleInput: string) => void
-    changeIsDone: (newId:string, newIsDone: boolean) => void
+    changeIsDone: (newId: string, newIsDone: boolean) => void
 }
 
 export function Todolist(props: PropsType) {
-
+    const [error, setError] = useState<string | null>('')
     const [newTitleInput, setNewTitleInput] = useState('')
 
     const addTaskHandler = () => {
-        props.addTask(newTitleInput)
-        setNewTitleInput('')
+        if (newTitleInput.trim()) {
+            props.addTask(newTitleInput.trim())
+            setNewTitleInput('')
+        } else {
+            setError('Title is requared!')
+        }
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setError('') // сетаем для того, чтобы пропадала красная рамка вокруг импута при условии предыдущей ошибки
         setNewTitleInput(e.currentTarget.value)
     }
 
@@ -40,16 +46,25 @@ export function Todolist(props: PropsType) {
         props.removeTask(tID)
     }
 
+    let [buttonName, setButtonName] = useState<FilterValuesType>('all')
+
+    const onClickHandler = (value: FilterValuesType) => {
+        props.changeFilter(value)
+        setButtonName(value)
+    }
+
+
     return (
         <div>
             <h3>{props.title}</h3>
 
             <div>
-                <input value={newTitleInput}
+                <input className={error ? styles.error : ''} value={newTitleInput}
                        onChange={onChangeHandler}
-                       onKeyPress={onKeyPressHandler} />
+                       onKeyPress={onKeyPressHandler}/>
                 {/*замена на компоненту <button onClick={addTaskHandler}>+</button> */}
-                <Button name={'+'} callBack={addTaskHandler} />
+                <Button name={'+'} callBack={addTaskHandler}/>
+                {error && <div className={styles.errorMessage}>{error}</div>}
             </div>
 
             <ul>
@@ -59,15 +74,15 @@ export function Todolist(props: PropsType) {
                             /*const removeTaskHandler = () => {
                                 props.removeTask(t.id)
                             }*/
-                        const changeIsDoneHandler = (event: ChangeEvent<HTMLInputElement>) => {
-                            props.changeIsDone(t.id, event.currentTarget.checked)
-                        }
+                            const changeIsDoneHandler = (event: ChangeEvent<HTMLInputElement>) => {
+                                props.changeIsDone(t.id, event.currentTarget.checked)
+                            }
                             return (
-                                <li key={t.id}>
-                                    <input type="checkbox" checked={t.isDone} onChange={changeIsDoneHandler} />
+                                <li key={t.id} className={ t.isDone ? styles.isDone : ''}>
+                                    <input type="checkbox" checked={t.isDone} onChange={changeIsDoneHandler}/>
                                     <span>{t.title}</span>
                                     {/*замена на компоненту <button onClick={()=>removeTaskHandler(t.id)}> x </button>*/}
-                                    <Button name={'x'} callBack={ () => removeTaskHandler(t.id) } />
+                                    <Button name={'x'} callBack={() => removeTaskHandler(t.id)}/>
                                 </li>
                             )
                         }
@@ -75,19 +90,13 @@ export function Todolist(props: PropsType) {
                 }
             </ul>
             <div>
-                <button onClick={() => {
-                    props.changeFilter('all')
-                }}>
+                <button className={ buttonName==='all' ? styles.activeFilter : ''} onClick={ () => onClickHandler('all') } >
                     All
                 </button>
-                <button onClick={() => {
-                    props.changeFilter('active')
-                }}>
+                <button className={ buttonName==='active' ? styles.activeFilter : ''} onClick={ () => onClickHandler('active') }>
                     Active
                 </button>
-                <button onClick={() => {
-                    props.changeFilter('completed')
-                }}>
+                <button className={ buttonName==='completed' ? styles.activeFilter : ''} onClick={() => onClickHandler('completed')}>
                     Completed
                 </button>
             </div>

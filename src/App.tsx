@@ -3,26 +3,26 @@ import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 
-export type FilterValuesType = "all" | "active" | "completed";
+export type FilterValuesType = 'all' | 'active' | 'completed';
 
 function App() {
 
     let [tasks, setTasks] = useState([
-        { id: v1(), title: "HTML&CSS", isDone: true },
-        { id: v1(), title: "JS", isDone: true },
-        { id: v1(), title: "ReactJS", isDone: false },
-        { id: v1(), title: "Rest API", isDone: false },
-        { id: v1(), title: "GraphQL", isDone: false },
+        {id: v1(), title: 'HTML&CSS', isDone: true},
+        {id: v1(), title: 'JS', isDone: true},
+        {id: v1(), title: 'ReactJS', isDone: false},
+        {id: v1(), title: 'Rest API', isDone: false},
+        {id: v1(), title: 'GraphQL', isDone: false},
     ]);
 
-    const changeIsDone = (newId:string, newIsDone: boolean) => {
-        // метод map работает с массивами и СОЗДАЁТ НОВЫЙ МАССИВ, Т.Е. СРЕД ОПЕРАТОР НЕ НУЖЕН
+    const changeIsDone = (newId: string, newIsDone: boolean) => {
+        // метод map работает с массивами и СОЗДАЁТ НОВЫЙ МАССИВ, Т.Е. СПРЕД ОПЕРАТОР НЕ НУЖЕН
         // увидел массив - сделай копию, увидел объект - сделай копию, увидел ключ - создавай новый с именем старого ключа
- setTasks(tasks.map(el => el.id === newId ? {...el, isDone: newIsDone} : el))
+        setTasks(tasks.map(el => el.id === newId ? {...el, isDone: newIsDone} : el))
     }
 
     const addTask = (newTitleInput: string) => {
-        let newTask = { id: v1(), title: newTitleInput, isDone: false }
+        let newTask = {id: v1(), title: newTitleInput, isDone: false}
         /*... - озночает, что мы "высыпаем" элементы из массива объекта
         * всё равно как покупаем яблоки у бабушки на дороге - тару-ведро нам
         * не продают, нужен свой ящик или банка
@@ -37,14 +37,14 @@ function App() {
         setTasks(filteredTasks);
     }
 
-    let [filter, setFilter] = useState<FilterValuesType>("all");
+    let [filter, setFilter] = useState<FilterValuesType>('all');
 
     let tasksForTodolist = tasks;
 
-    if (filter === "active") {
+    if (filter === 'active') {
         tasksForTodolist = tasks.filter(t => t.isDone === false);
     }
-    if (filter === "completed") {
+    if (filter === 'completed') {
         tasksForTodolist = tasks.filter(t => t.isDone === true);
     }
 
