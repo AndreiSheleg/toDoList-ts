@@ -2,6 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {FilterValuesType} from './App';
 import {Button} from './conponents/Button';
 import styles from './Todolist.module.css'
+import {CheckBox} from './conponents/CheckBox';
 
 type TaskType = {
     id: string
@@ -27,7 +28,7 @@ export function Todolist(props: PropsType) {
             props.addTask(newTitleInput.trim())
             setNewTitleInput('')
         } else {
-            setError('Title is requared!')
+            setError('Title is required!')
         }
     }
 
@@ -53,6 +54,9 @@ export function Todolist(props: PropsType) {
         setButtonName(value)
     }
 
+    const changeIsDoneHandler = (tID: string, isDone: boolean) => {
+        props.changeIsDone(tID, isDone)
+    }
 
     return (
         <div>
@@ -74,12 +78,14 @@ export function Todolist(props: PropsType) {
                             /*const removeTaskHandler = () => {
                                 props.removeTask(t.id)
                             }*/
-                            const changeIsDoneHandler = (event: ChangeEvent<HTMLInputElement>) => {
+                            /*const changeIsDoneHandler = (event: ChangeEvent<HTMLInputElement>) => {
                                 props.changeIsDone(t.id, event.currentTarget.checked)
-                            }
+                            }*/
                             return (
                                 <li key={t.id} className={ t.isDone ? styles.isDone : ''}>
-                                    <input type="checkbox" checked={t.isDone} onChange={changeIsDoneHandler}/>
+
+                                    <CheckBox checked={t.isDone} callBack={ (isDone)=> changeIsDoneHandler(t.id, isDone) }/>
+
                                     <span>{t.title}</span>
                                     {/*замена на компоненту <button onClick={()=>removeTaskHandler(t.id)}> x </button>*/}
                                     <Button name={'x'} callBack={() => removeTaskHandler(t.id)}/>
