@@ -4,8 +4,13 @@ import {Todolist} from './Todolist';
 import {v1} from 'uuid';
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
+type todolistsType = { id: string, title: string, filter: FilterValuesType }
 
 function App() {
+    let [todolists, settodolists] = useState<todolistsType[]>([
+        {id: v1(), title: 'What to learn', filter: 'all'},
+        {id: v1(), title: 'What to buy', filter: 'all'}
+    ])
 
     let [tasks, setTasks] = useState([
         {id: v1(), title: 'HTML&CSS', isDone: true},
@@ -14,30 +19,29 @@ function App() {
         {id: v1(), title: 'Rest API', isDone: false},
         {id: v1(), title: 'GraphQL', isDone: false},
     ]);
+    let [filter, setFilter] = useState<FilterValuesType>('all');
 
-    const changeIsDone = (newId: string, newIsDone: boolean) => {
-        // метод map работает с массивами и СОЗДАЁТ НОВЫЙ МАССИВ, Т.Е. СПРЕД ОПЕРАТОР НЕ НУЖЕН
-        // увидел массив - сделай копию, увидел объект - сделай копию, увидел ключ - создавай новый с именем старого ключа
-        setTasks(tasks.map(el => el.id === newId ? {...el, isDone: newIsDone} : el))
-    }
-
-    const addTask = (newTitleInput: string) => {
-        let newTask = {id: v1(), title: newTitleInput, isDone: false}
-        /*... - озночает, что мы "высыпаем" элементы из массива объекта
-        * всё равно как покупаем яблоки у бабушки на дороге - тару-ведро нам
-        * не продают, нужен свой ящик или банка
-        * [ ] - создаём новый "ящик"*/
-        setTasks([newTask, ...tasks])
-
-        //console.log('звоним из функции эддТаск')
-    }
 
     function removeTask(id: string) {
-        let filteredTasks = tasks.filter(t => t.id !== id);
+        let filteredTasks = tasks.filter(t => t.id != id);
         setTasks(filteredTasks);
     }
 
-    let [filter, setFilter] = useState<FilterValuesType>('all');
+    function addTask(title: string) {
+        let task = {id: v1(), title: title, isDone: false};
+        let newTasks = [task, ...tasks];
+        setTasks(newTasks);
+    }
+
+    function changeStatus(taskId: string, isDone: boolean) {
+        let task = tasks.find(t => t.id === taskId);
+        if (task) {
+            task.isDone = isDone;
+        }
+
+        setTasks([...tasks]);
+    }
+
 
     let tasksForTodolist = tasks;
 
@@ -54,13 +58,21 @@ function App() {
 
     return (
         <div className="App">
-            <Todolist title="What to learn"
-                      tasks={tasksForTodolist}
-                      removeTask={removeTask}
-                      changeFilter={changeFilter}
-                      addTask={addTask}
-                      changeIsDone={changeIsDone}
-            />
+            {todolists.map(el => {
+                return (
+                    <Todolist
+                        key={el.id}
+                        title={el.title}
+                        tasks={tasksForTodolist}
+                        removeTask={removeTask}
+                        changeFilter={changeFilter}
+                        addTask={addTask}
+                        changeTaskStatus={changeStatus}
+                        filter={filter}
+                    />
+                )
+            })}
+
         </div>
     );
 }
