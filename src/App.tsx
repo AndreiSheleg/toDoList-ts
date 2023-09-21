@@ -12,6 +12,7 @@ function App() {
         {id: v1(), title: 'What to buy', filter: 'all'}
     ])
 
+
     let [tasks, setTasks] = useState([
         {id: v1(), title: 'HTML&CSS', isDone: true},
         {id: v1(), title: 'JS', isDone: true},
@@ -47,7 +48,7 @@ function App() {
 
     function changeFilter(todolistID: string, value: FilterValuesType) {
         //setFilter(value);
-        setTodolists( todolists.map( el => el.id === todolistID ? {...el, el.filter: value} : el ) )
+        setTodolists( todolists.map( el => el.id === todolistID ? {...el, filter: value} : el ) )
     }
 
     return (
