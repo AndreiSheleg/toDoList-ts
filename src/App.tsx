@@ -79,6 +79,13 @@ function App() {
         setTodolists( todolists.map( el => el.id === todolistID ? {...el, filter: value} : el ) )
     }
 
+    const removeTodoList = (todolistID: string) => {
+        setTodolists(todolists.filter(el=> el.id !== todolistID ))
+        // ЕСЛИ ДАННЫЕ БОЛЬШЕ НЕ ОТРИСОВЫВАЮТСЯ, ТО ИХ МОЖНО УДАЛИТЬ БЕЗ СОЗДАВАНИЯ КОПИИ (ИММУТАБЕЛЬНО)
+        delete tasks[todolistID]
+        console.log(tasks)
+    }
+
     return (
         <div className="App">
             {todolists.map(el => {
@@ -103,6 +110,7 @@ function App() {
                         addTask={addTask}
                         changeTaskStatus={changeStatus}
                         filter={el.filter}
+                        removeTodoList = {removeTodoList}
                     />
                 )
             })}
