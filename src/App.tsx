@@ -63,17 +63,19 @@ function App() {
         // setTasks(newTasks);
     }
 
-    function changeStatus(taskId: string, isDone: boolean) {
-        let task = tasks.find(t => t.id === taskId);
-        if (task) {
-            task.isDone = isDone;
-        }
-
-        setTasks([...tasks]);
+    function changeStatus(todolistID: string, taskId: string, isDone: boolean) {
+        // НИЖЕ ОБРАТИ ВНИМАНИЕ - ЕСЛИ КЛЮС И ЗНАЧЕНИЕ iSDone совпали, ТО НЕ НАДО ПИСАТЬ ЕЩЁ РАЗ iSDone (iSDone: iSDone)
+        setTasks({...tasks, [todolistID]:tasks[todolistID].map(el=>el.id === taskId ? {...el, isDone} :el ) } )
+        // let task = tasks.find(t => t.id === taskId);
+        // if (task) {
+        //     task.isDone = isDone;
+        // }
+        //
+        // setTasks([...tasks]);
     }
 
     function changeFilter(todolistID: string, value: FilterValuesType) {
-        //setFilter(value);
+
         setTodolists( todolists.map( el => el.id === todolistID ? {...el, filter: value} : el ) )
     }
 
