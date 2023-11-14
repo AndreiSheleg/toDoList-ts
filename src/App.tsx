@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
+import {AddItemForm} from "./AddItemForm";
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 type TodolistsType = { id: string, title: string, filter: FilterValuesType }
@@ -64,7 +65,7 @@ function App() {
     }
 
     function changeStatus(todolistID: string, taskId: string, isDone: boolean) {
-        // НИЖЕ ОБРАТИ ВНИМАНИЕ - ЕСЛИ КЛЮС И ЗНАЧЕНИЕ iSDone совпали, ТО НЕ НАДО ПИСАТЬ ЕЩЁ РАЗ iSDone (iSDone: iSDone)
+        // НИЖЕ ОБРАТИ ВНИМАНИЕ - ЕСЛИ КЛЮЧ И ЗНАЧЕНИЕ iSDone совпали, ТО НЕ НАДО ПИСАТЬ ЕЩЁ РАЗ iSDone (iSDone: iSDone)
         setTasks({...tasks, [todolistID]:tasks[todolistID].map(el=>el.id === taskId ? {...el, isDone} :el ) } )
         // let task = tasks.find(t => t.id === taskId);
         // if (task) {
@@ -86,8 +87,26 @@ function App() {
         console.log(tasks)
     }
 
+    const addTodolist = (newTitle: string) => {
+        const newID = v1()
+        const newTodo:TodolistsType = {id: newID, title: newTitle, filter: 'all'}
+        setTodolists([...todolists, newTodo])
+        setTasks({...tasks, [newID]: []})
+    }
+
+    const updateTask = (todolistID:string, taskID:string, newTitle: string) => {
+        console.log('звонок из функции updateTask, newTitle равно :', newTitle)
+        setTasks({...tasks, [todolistID]: tasks[todolistID].map(el=> el.id === taskID ? {...el, title: newTitle} : el)})
+    }
+
+    const updateTodolist = (todolistID:string, newTitle: string) => {
+        console.log('звонок из функции updateTodolist, newTitle равно :', newTitle)
+        setTodolists(todolists.map(el => el.id === todolistID ? {...el, title: newTitle} : el))
+    }
+
     return (
         <div className="App">
+            <AddItemForm onClick={ addTodolist } />
             {todolists.map(el => {
                 let tasksForTodolist = tasks[el.id];
 
@@ -111,6 +130,8 @@ function App() {
                         changeTaskStatus={changeStatus}
                         filter={el.filter}
                         removeTodoList = {removeTodoList}
+                        updateTask={updateTask}
+                        updateTodolist={updateTodolist}
                     />
                 )
             })}
