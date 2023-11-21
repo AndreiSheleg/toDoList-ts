@@ -115,10 +115,10 @@ function App() {
         <div className="App">
             <ButtonAppBar/>
             <Container fixed>
-                <Grid container>
+                <Grid container style={{margin:'20px'}}>
                     <AddItemForm onClick={addTodolist}/>
                 </Grid>
-                <Grid container>
+                <Grid container style={{margin:'20px'}}>
                     {todolists.map(el => {
                         let tasksForTodolist = tasks[el.id];
 
@@ -130,8 +130,7 @@ function App() {
                             tasksForTodolist = tasks[el.id].filter(t => t.isDone);
                             // tasksForTodolist = tasks[el.id].filter(t => t.isDone === true);
                         }
-                        return <Grid item>
-                            <Paper elevation={3} >
+                        return <Paper elevation={3} style={{padding: '20px', margin: '10px'}}>
                             <Todolist
                                 key={el.id}
                                 todolistID={el.id}
@@ -147,7 +146,7 @@ function App() {
                                 updateTodolist={updateTodolist}
                             />
                             </Paper >
-                            </Grid>
+
                                             })}
                 </Grid>
             </Container>
