@@ -16,11 +16,11 @@ export type TodolistType = {
 }
 
 type TasksStateType = {
-    [key: string]: TaskType[]
+    [key: string]: Array<TaskType>
 }
 
 
-export function App() {
+function App() {
     let todolistId1 = v1();
     let todolistId2 = v1();
 
@@ -178,3 +178,5 @@ export function App() {
         </div>
     );
 }
+
+export default App;
