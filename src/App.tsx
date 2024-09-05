@@ -6,6 +6,9 @@ import {AddItemForm} from './AddItemForm';
 import AppBar from '@mui/material/AppBar/AppBar';
 import {Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
+import {useSelector} from "react-redux";
+import {ThemeMode} from "./app/app-reducer";
+import {getTheme} from "./common/theme/theme";
 
 
 export type FilterValuesType = "all" | "active" | "completed";
@@ -19,8 +22,16 @@ export type TasksStateType = {
     [key: string]: TaskType[]
 }
 
-
 function App() {
+
+    const themeMode = useSelector<RootState, ThemeMode>(state => state.app.themeMode)
+
+    const theme = getTheme(themeMode)
+
+    const changeModeHandler = () => {
+        dispatch(changeThemeAC(themeMode === 'light' ? 'dark' : 'light'))
+    }
+
     let todolistId1 = v1();
     let todolistId2 = v1();
 
