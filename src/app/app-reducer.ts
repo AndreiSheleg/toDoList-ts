@@ -11,6 +11,7 @@ export const appReducer = (
     action: ActionsType
 ): InitialState => {
     switch (action.type) {
+        //3
         case 'CHANGE_THEME':
             return {...state, themeMode: action.payload}
         default:
@@ -18,11 +19,12 @@ export const appReducer = (
     }
 }
 
+//1
 export const changeThemeAC = (newTheme: ThemeMode) => {
 return {type: 'CHANGE_THEME', payload: newTheme} as const
 }
 
-// Action types
+// 2Action types
 
 type ChangeThemeActionType = ReturnType<typeof changeThemeAC>
 
