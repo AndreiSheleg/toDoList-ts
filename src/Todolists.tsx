@@ -29,9 +29,9 @@ export const Todolists = () => {
         dispatch(changeTaskTitleAC({taskId, title, todolistId}))
     }
 
-    const changeFilter = (filter: FilterValuesType, id: string) => {
-        dispatch(changeTodolistFilterAC({id, filter}))
-    }
+    // const changeFilter = (filter: FilterValuesType, id: string) => {
+    //     dispatch(changeTodolistFilterAC({id, filter}))
+    // }
     const removeTodolist = (todolistId: string) => {
         dispatch(removeTodolistAC(todolistId))
     }
@@ -63,15 +63,15 @@ export const Todolists = () => {
                                 todolist = {tl}
                                 // todolistId={tl.id}
                                 // title={tl.title}
-                                // tasks={tasksForTodolist}
-                                // removeTask={removeTask}
-                                // changeFilter={changeFilter}
-                                // addTask={addTask}
-                                // changeTaskStatus={changeTaskStatus}
+                                tasks={tasksForTodolist}
+                                removeTask={removeTask}
+                                 //changeFilter={changeFilter}
+                                 addTask={addTask}
+                                 changeTaskStatus={changeTaskStatus}
                                 // filter={tl.filter}
-                                // removeTodolist={removeTodolist}
-                                // updateTask={updateTask}
-                                // updateTodolist={updateTodolist}
+                                 removeTodolist={removeTodolist}
+                                 updateTask={updateTask}
+                                 updateTodolist={updateTodolist}
                             />
                         </Paper>
                     </Grid>
