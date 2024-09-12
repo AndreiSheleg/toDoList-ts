@@ -13,26 +13,7 @@ export const Todolists = () => {
     const todolists = useSelector<RootState, TodolistType[]>((state) => state.todolists)
     const tasks = useSelector<RootState, TasksStateType>((state) => state.tasks)
 
-    const removeTask = (taskId: string, todolistId: string) => {
-        dispatch(removeTaskAC({taskId, todolistId}))
-    }
-
-    const addTask = (title: string, todolistId: string) => {
-        dispatch(addTaskAC({title, todolistId}))
-    }
-
-    const changeTaskStatus = (taskId: string, taskStatus: boolean, todolistId: string) => {
-        dispatch(changeTaskStatusAC({taskId, isDone: taskStatus, todolistId}))
-    }
-
-    const updateTask = (todolistId: string, taskId: string, title: string) => {
-        dispatch(changeTaskTitleAC({taskId, title, todolistId}))
-    }
-
-    // const changeFilter = (filter: FilterValuesType, id: string) => {
-    //     dispatch(changeTodolistFilterAC({id, filter}))
-    // }
-    const removeTodolist = (todolistId: string) => {
+      const removeTodolist = (todolistId: string) => {
         dispatch(removeTodolistAC(todolistId))
     }
 
@@ -64,13 +45,9 @@ export const Todolists = () => {
                                 // todolistId={tl.id}
                                 // title={tl.title}
                                 tasks={tasksForTodolist}
-                                removeTask={removeTask}
-                                 //changeFilter={changeFilter}
-                                 addTask={addTask}
-                                 changeTaskStatus={changeTaskStatus}
+                                //changeFilter={changeFilter}
                                 // filter={tl.filter}
                                  removeTodolist={removeTodolist}
-                                 updateTask={updateTask}
                                  updateTodolist={updateTodolist}
                             />
                         </Paper>
