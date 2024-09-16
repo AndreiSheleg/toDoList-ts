@@ -1,17 +1,18 @@
 import React from 'react';
-import {TodolistType} from "./app/App";
+import {TodolistType} from "../../../../../../app/App";
 import {useDispatch} from "react-redux";
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "../../../../../../common/components/EditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {changeTodolistTitleAC, removeTodolistAC} from "./model/todolists-reducer";
+import {changeTodolistTitleAC, removeTodolistAC} from "../../../../model/todolists-reducer";
+import {useAppDispatch} from "../../../../../../common/hooks/useAppDispatch";
 
 type Props = {
     todolist: TodolistType
 }
 export const TodolistTitle = ( {todolist}: Props) => {
    const {title, id} = todolist
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const removeTodolistHandler = () => {
         dispatch(removeTodolistAC(id))
@@ -22,7 +23,7 @@ export const TodolistTitle = ( {todolist}: Props) => {
     }
 
     return (
-        <div className={"todolist-title-container"}>
+        <div className={"container"}>
             <h3><EditableSpan value={title} onChange={updateTodolistHandler}/></h3>
             <IconButton onClick={removeTodolistHandler}>
                 <DeleteIcon/>
