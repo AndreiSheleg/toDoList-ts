@@ -13,28 +13,9 @@ export const Todolists = () => {
     const todolists = useSelector<RootState, TodolistType[]>((state) => state.todolists)
     const tasks = useSelector<RootState, TasksStateType>((state) => state.tasks)
 
-      const removeTodolist = (todolistId: string) => {
-        dispatch(removeTodolistAC(todolistId))
-    }
-
-    const updateTodolist = (id: string, title: string) => {
-        dispatch(changeTodolistTitleAC({id, title}))
-    }
-
     return (
         <>
             {todolists.map((tl) => {
-
-                const allTodolistTasks = tasks[tl.id]
-                let tasksForTodolist = allTodolistTasks
-
-                if (tl.filter === 'active') {
-                    tasksForTodolist = allTodolistTasks.filter(task => !task.isDone)
-                }
-
-                if (tl.filter === 'completed') {
-                    tasksForTodolist = allTodolistTasks.filter(task => task.isDone)
-                }
 
                 return (
                     <Grid key={tl.id}>
@@ -42,13 +23,6 @@ export const Todolists = () => {
                             <Todolist
                                 key={tl.id}
                                 todolist = {tl}
-                                // todolistId={tl.id}
-                                // title={tl.title}
-                                tasks={tasksForTodolist}
-                                //changeFilter={changeFilter}
-                                // filter={tl.filter}
-                                 removeTodolist={removeTodolist}
-                                 updateTodolist={updateTodolist}
                             />
                         </Paper>
                     </Grid>

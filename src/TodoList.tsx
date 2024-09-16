@@ -13,40 +13,25 @@ import {filterButtonsContainerSx, getListItemSx} from "./Todolist.styles";
 import {FilterTasksButtons} from "./FilterTasksButtons";
 import {Tasks} from "./Tasks";
 import {useDispatch} from "react-redux";
+import {addTaskAC} from "./model/tasks-reducer";
 
 
 type Props = {
     todolist: TodolistType,
-    removeTodolist: (todolistId: string) => void,
-    updateTodolist: (id: string, title: string) => void,
-    tasks: TaskType[]
 }
 
 export const Todolist = (props: Props) => {
-    const {todolist, removeTodolist, updateTodolist, tasks } = props
+    const {todolist} = props
 
     const dispatch=useDispatch()
-    const removeTodolistHandler = () => {
-        removeTodolist(todolist.id)
-    }
-    const addTaskCallback = (title: string) => {
-        addTask(todolist.title, todolist.id)
-    }
 
-    const updateTodolistHandler = (title: string) => {
-        updateTodolist(todolist.id, title)
+    const addTaskCallback = (title: string,) => {
+        dispatch(addTaskAC({title, todolistId:todolist.id}))
     }
 
     return (
         <div>
-            <div className={"todolist-title-container"}>
-                <h3><EditableSpan value={todolist.title} onChange={updateTodolistHandler}/></h3>
-                <IconButton onClick={removeTodolistHandler}>
-                    <DeleteIcon/>
-                </IconButton>
-            </div>
-            <AddItemForm addItem={addTaskCallback}/>
-
+             <AddItemForm addItem={addTaskCallback}/>
             <Tasks todolist={todolist}/>
             <FilterTasksButtons todolist={todolist}/>
         </div>
