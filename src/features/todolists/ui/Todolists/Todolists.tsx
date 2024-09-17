@@ -4,13 +4,14 @@ import {FilterValuesType, TasksStateType, TodolistType} from "../../../../app/Ap
 import Grid from "@mui/material/Unstable_Grid2";
 import Paper from "@mui/material/Paper";
 import {Todolist} from "./Todolist/Todolist";
-import {useAppDispatch} from "../../../../common/hooks/useAppDispatch";
+
 import {useAppSelector} from "../../../../common/hooks/useAppSelector";
+import {selectTodolists} from "../../model/todolistsSelectors";
+
 
 export const Todolists = () => {
-    const dispatch = useAppDispatch()
-    const todolists = useAppSelector<RootState, TodolistType[]>((state) => state.todolists)
-    const tasks = useAppSelector<RootState, TasksStateType>((state) => state.tasks)
+
+    const todolists = useAppSelector<RootState, TodolistType[]>(selectTodolists)
 
     return (
         <>
